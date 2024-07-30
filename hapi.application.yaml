@@ -1,0 +1,67 @@
+spring:
+  datasource:
+    url: 'jdbc:postgresql://db:5432/hapi'
+    username: admin
+    password: admin
+    driverClassName: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
+      hibernate.search.enabled: false
+hapi:
+  fhir:
+    cr:
+      enabled: false
+
+    cdshooks:
+      enabled: true
+      clientIdHeaderName: client_id
+    
+    ### This enables the swagger-ui at /fhir/swagger-ui/index.html as well as the /fhir/api-docs (see https://hapifhir.io/hapi-fhir/docs/server_plain/openapi.html)
+    openapi_enabled: false
+    ### This is the FHIR version. Choose between, DSTU2, DSTU3, R4 or R5
+    fhir_version: R4
+    ### Flag is false by default. This flag enables runtime installation of IG's.
+    ig_runtime_upload_enabled: false
+
+    allow_external_references: true
+
+    narrative_enabled: false
+    mdm_enabled: false
+    mdm_rules_json_location: "mdm-rules.json"
+    #    local_base_urls:
+    #      - https://hapi.fhir.org/baseR4
+    logical_urls:
+      - http://terminology.hl7.org/*
+      - https://terminology.hl7.org/*
+      - http://snomed.info/*
+      - https://snomed.info/*
+      - http://unitsofmeasure.org/*
+      - https://unitsofmeasure.org/*
+      - http://loinc.org/*
+      - https://loinc.org/*
+
+    cors:
+      allow_Credentials: true
+      # These are allowed_origin patterns, see: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/cors/CorsConfiguration.html#setAllowedOriginPatterns-java.util.List-
+      allowed_origin:
+        - '*'
+
+    # Search coordinator thread pool sizes
+    search-coord-core-pool-size: 20
+    search-coord-max-pool-size: 100
+    search-coord-queue-capacity: 200
+
+    binary_storage_enabled: true
+    max_binary_size: 104857600
+
+    tester:
+      home:
+        name: Local Tester
+        server_address: 'http://localhost:8080/fhir'
+        refuse_to_fetch_third_party_urls: false
+        fhir_version: R4
+#        validation:
+#          requests_enabled: true
+#          responses_enabled: true
+
